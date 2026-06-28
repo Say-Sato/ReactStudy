@@ -1,3 +1,4 @@
+import "./App.css";
 import { useState, type ChangeEvent} from "react";
 
 type Todo = {
@@ -19,11 +20,20 @@ function App() {
   const [inputName, setInputName] = useState("");
 
   /* todosに画面に表示する値を追加する */
-  const handleClick = () => {
+  const handleAdd = () => {
     /* 入力中の値を配列に追加 */
         setTodos(todos => [...todos, { id: id++, name: inputName, completed: false}]);
     /* 入力中の値を空にする */
     setInputName("")
+  };
+
+  /* todosに画面に表示する値を削除する */
+  const handleDelete = (deleteId: number) => {
+    /* 新規に配列を作成しtodosを更新する */
+    setTodos(
+      /* filterで削除するidと一致しないもののみ残す */
+      todos => todos.filter((todo) => todo.id !== deleteId)
+    )
   };
 
     /* inputNameに入力中の値を反映する */
@@ -34,29 +44,40 @@ function App() {
 
 
   return (
-    <>
-      <h1>名前を入力してください。</h1>
+  <div className="app">
+    <h1>タスクを入力してください。</h1>
 
-      <input
-        type="text"
-        className="name"
-        value={inputName}
-        onChange={handleChange}
-      />
-      <input
-        type="button"
-        className="name-button"
-        value="変更"
-        onClick={handleClick}
-      />
-      /* 配列から値を取り出す（todosの各要素をtodoとする） */
+    <input
+      type="text"
+      className="name"
+      value={inputName}
+      onChange={handleChange}
+    />
+
+    <input
+      type="button"
+      className="name-button"
+      value="追加"
+      onClick={handleAdd}
+    />
+
+    <ul>
       {todos.map((todo) => (
-        <>
-          <p>入力した名前：{todo.name}</p>
-          <p>入力したid：{todo.id}</p>
-        </>
+        <li key={todo.id}>
+          <p>{todo.name}</p>
+
+          <input
+            type="button"
+            className="delete-button"
+            value="削除"
+            onClick={() => {
+              handleDelete(todo.id);
+            }}
+          />
+        </li>
       ))}
-    </>
+    </ul>
+  </div>
   );
 }
 
