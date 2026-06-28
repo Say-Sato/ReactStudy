@@ -1,15 +1,27 @@
 import { useState, type ChangeEvent} from "react";
 
+type Todo = {
+    // ユニークなid
+    id: number;
+    // 値
+    name: string;
+    // 完了フラグ
+    completed: boolean;
+};
+
+// シーケンスid
+let id = 0;
+
 function App() {
   /* 画面に表示する配列 */
-  const [todos, setTodos] = useState<string[]>([]);
+  const [todos, setTodos] = useState<Todo[]>([]);
    /* 入力中の値 */
   const [inputName, setInputName] = useState("");
 
   /* todosに画面に表示する値を追加する */
   const handleClick = () => {
     /* 入力中の値を配列に追加 */
-        setTodos(todos => [...todos, inputName]);
+        setTodos(todos => [...todos, { id: id++, name: inputName, completed: false}]);
     /* 入力中の値を空にする */
     setInputName("")
   };
@@ -20,7 +32,7 @@ function App() {
     setInputName(event.target.value)
   };
 
-  
+
   return (
     <>
       <h1>名前を入力してください。</h1>
@@ -39,7 +51,10 @@ function App() {
       />
       /* 配列から値を取り出す（todosの各要素をtodoとする） */
       {todos.map((todo) => (
-          <p>入力した名前：{todo}</p>
+        <>
+          <p>入力した名前：{todo.name}</p>
+          <p>入力したid：{todo.id}</p>
+        </>
       ))}
     </>
   );
