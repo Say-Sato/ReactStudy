@@ -1,12 +1,21 @@
-import { useState } from "react";
-import type { ChangeEvent } from "react";
+import { useState, type ChangeEvent} from "react";
 
 function App() {
-  /* 変数nameにsetNameを利用して値を入れる */
-  const [name, setName] = useState("");
+  /* 画面に表示する値 */
+  const [displayName, setDisplayName] = useState("");
+   /* 入力中の値 */
+  const [inputName, setInputName] = useState("");
 
+  /* displayNameに画面に表示する値を入力する */
+  const handleClick = () => {
+    /* 入力中の値を代入 */
+    setDisplayName(inputName)
+  };
+
+    /* inputNameに入力中の値を反映する */
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setName(event.target.value);
+    /* テキストが変更されるごとに入力中の値を更新する */
+    setInputName(event.target.value)
   };
 
   return (
@@ -16,12 +25,17 @@ function App() {
       <input
         type="text"
         className="name"
-        name="name"
-        value={name}
+        value={inputName}
         onChange={handleChange}
       />
+      <input
+        type="button"
+        className="name-button"
+        value="変更"
+        onClick={handleClick}
+      />
 
-      <p>入力した名前：{name}</p>
+      <p>入力した名前：{displayName}</p>
     </>
   );
 }
