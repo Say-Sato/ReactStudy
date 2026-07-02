@@ -27,17 +27,25 @@ function App() {
     setInputName("")
   };
 
-  /* todosに画面に表示する値を削除する */
+    /* todoの完了状態を更新する */
+  const handleToggleCompleted = (completedId: number) => {
+    /* 引数で指定したtodoの状態を完了または未完了に変更する*/
+    setTodos(todos.map((todo) => 
+      todo.id === completedId ? { ...todo, completed: !todo.completed } : todo
+    ));
+  };
+
+  /* todoを削除する */
   const handleDelete = (deleteId: number) => {
     /* 新規に配列を作成しtodosを更新する */
     setTodos(
-      /* filterで削除するidと一致しないもののみ残す */
+      /* filterで削除するidと一致しないもののみTodosに残す */
       todos => todos.filter((todo) => todo.id !== deleteId)
     )
   };
 
     /* inputNameに入力中の値を反映する */
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
     /* テキストが変更されるごとに入力中の値を更新する */
     setInputName(event.target.value)
   };
@@ -51,7 +59,7 @@ function App() {
       type="text"
       className="name"
       value={inputName}
-      onChange={handleChange}
+      onChange={handleInput}
     />
 
     <input
@@ -64,7 +72,16 @@ function App() {
     <ul>
       {todos.map((todo) => (
         <li key={todo.id}>
-          <p>{todo.name}</p>
+
+        <input
+            type="checkbox"
+            checked={todo.completed}
+            onChange={() => {
+              handleToggleCompleted(todo.id);
+            }}
+          />
+
+          <p className={todo.completed ? "completed" : ""}>{todo.name}</p>
 
           <input
             type="button"

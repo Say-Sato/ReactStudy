@@ -63,6 +63,11 @@ li p:first-child {
     flex: 1;
 }
 
+/* 完了タスク */
+.completed {
+    text-decoration: line-through;
+}
+
 /* 削除ボタン */
 .delete-button {
     padding: 5px 12px;
