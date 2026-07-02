@@ -1,14 +1,6 @@
 import "./App.css";
 import { useState, type ChangeEvent} from "react";
-
-type Todo = {
-    // ユニークなid
-    id: number;
-    // 値
-    name: string;
-    // 完了フラグ
-    completed: boolean;
-};
+import type { Todo } from "./types/Todo";
 
 // シーケンスid
 let id = 0;
